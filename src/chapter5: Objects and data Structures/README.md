@@ -48,4 +48,45 @@ class Geometry:
         return s.side * s.side;
 ```
 
+#### Polymorphic Shapes
+
+Procedural code (code using data structures) makes it easy to add new functions without
+changing the existing data structures. OO code, on the other hand, makes it easy to add
+new classes without changing existing functions.
+
+```
+class Square(Shape):
+    name    = "Square"
+    width   = 0        # A default value 
+
+    def __init__(self, width):
+        self.width = width
+
+    def get_area(self):
+        return width * width
+
+class Triangle(Shape):
+    name    = "Triangle"
+    width   = 0
+    height  = 0
+
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height 
+
+    def get_area(self):
+        return 0.5 * width * height 
+```
+
 ## The Law of Demeter
+
+the Law of Demeter says that a method f of a class C should only call
+the methods of these:
+• C
+• An object created by f
+• An object passed as an argument to f
+• An object held in an instance variable of C
+
+```
+outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath()
+```
