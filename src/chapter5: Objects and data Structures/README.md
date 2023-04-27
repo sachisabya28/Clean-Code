@@ -46,6 +46,8 @@ class Geometry:
         if (shape.instance(Square)):
         s = Square;
         return s.side * s.side;
+        elseif (shape.instance(Square)):
+        .....
 ```
 
 #### Polymorphic Shapes
@@ -88,5 +90,15 @@ the methods of these:
 • An object held in an instance variable of C
 
 ```
+Bad practice
 outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath()
 ```
+
+
+```
+Good practice
+Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();
+```
+
