@@ -64,4 +64,58 @@ except (PortDeviceFailure e):
     logger.log(e.getMessage(), e)
 ```
 
+poor exception classification
+
+```
+try {
+    port.open();
+} catch (DeviceResponseException e) {
+    reportPortError(e);
+    logger.log("Device response exception", e);
+} catch (ATM1212UnlockedException e) {
+    reportPortError(e);
+    logger.log("Unlock exception", e);
+} catch (GMXError e) {
+    reportPortError(e);
+    logger.log("Device response exception");
+finally {
+    …
+}
+```
+here we are doing is roughly the same
+regardless of the exception, we can simplify our code considerably by wrapping the API
+that we are calling and making sure that it returns a common exception type:
+
+```
+LocalPort port = new LocalPort(12);
+try {
+    port.open();
+} catch (PortDeviceFailure e) {
+    reportError(e);
+    logger.log(e.getMessage(), e);
+} finally {
+…
+}
+```
+
+## Don't return Null
+
+In many cases, special case objects are an easy remedy. Imagine that you have code
+like this:
+```
+employees = getEmployees();
+if (employees != null) {
+    for(Employee e : employees) {
+    totalPay += e.getPay();
+    }
+}
+```
+Right now, getEmployees can return null, but does it have to? If we change getEmployee so
+that it returns an empty list, we can clean up the code:
+```
+    List<Employee> employees = getEmployees();
+    for(Employee e : employees) {
+    totalPay += e.getPay();
+}
+```
 
